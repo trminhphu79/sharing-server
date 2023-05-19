@@ -1,21 +1,8 @@
 const mongoose = require('mongoose');
-const dataSchema = new mongoose.Schema({
-  username: {
-    required: true,
-    type: String
-  },
-  password: {
-    required: true,
-    type: String
-  },
-  phone: {
-    required: false,
-    type: String
-  },
-  fullname: {
-    required: false,
-    type: String
-  }
-})
+const RefreshTokenSchema = new mongoose.Schema({
+  token: { type: String, required: true },
+  user: { type: mongoose.Schema.Types.ObjectId, required: true },
+  expiryDate: { type: Date, required: true },
+});
 
-module.exports = mongoose.model('Admin', dataSchema);
+module.exports = mongoose.model('RefreshToken', RefreshTokenSchema);

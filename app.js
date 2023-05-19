@@ -15,7 +15,7 @@ app.use('', require('./api/routes'));
 app.use('/auth', require('./auth/routes'));
 
 app.use('/', (req, res) => {
-  res.status('404').json({ message: 'Not found' });
+  res.status(404).json({ message: 'Not found' });
 })
 
 module.exports = app
