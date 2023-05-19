@@ -30,8 +30,9 @@ const generateAccessToken = async req => {
     const username = req.body.username
     const password = req.body.password
     const user = await Model.findOne({ username: username });
+    let token = '';
     if (password === user.password) {
-      let token = jwt.sign({ phoneNumber: req.body.phoneNumber }, process.env.JWT_SECRET, { algorithm: process.env.JWT_ALGORITHM, expiresIn: process.env.JWT_EXPIRATION_TIME })
+      token = jwt.sign({ phoneNumber: req.body.phoneNumber }, process.env.JWT_SECRET, { algorithm: process.env.JWT_ALGORITHM, expiresIn: process.env.JWT_EXPIRATION_TIME })
       token = `Bearer ${token}`
     }
     return token

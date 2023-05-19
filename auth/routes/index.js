@@ -8,7 +8,7 @@ routes
   .post('/login', async (req, res) => {
     const token = await generateAccessToken(req);
     res.status(200).json({
-      value: token
+      accessToken: token,
     })
   })
 
