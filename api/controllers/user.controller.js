@@ -1,5 +1,4 @@
-const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../../utils/constant/message.constant');
-
+const USER_MESSAGE = require('../../utils/constant/user.message');
 const Model = require('../models/user.model');
 
 const getUsers = async (req) => {
@@ -11,12 +10,13 @@ const getUsers = async (req) => {
   }
 }
 
-
 const createUser = async (req) => {
+
   const { username, password, name, phoneNumber, email, address } = req.body;
-  const isExisting = await Model.findOne({ username: username })
+  const isExisting = await Model.findOne({ username: username });
+
   if (isExisting) {
-    throw MESSAGE_ERROR.USER_EXISTING;
+    throw USER_MESSAGE.EXISTING_USER;
   }
 
   try {
@@ -28,8 +28,8 @@ const createUser = async (req) => {
       email: email,
       address: address
     });
-    await db.save();
-    return MESSAGE_SUCCESS.SUCCESS
+    let result = await db.save();
+    return result
   } catch (error) {
     throw error.message
   }

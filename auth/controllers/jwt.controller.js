@@ -1,13 +1,14 @@
 
 
 'use strict'
+const jwt = require('jsonwebtoken')
 
 const dotenv = require('dotenv')
 dotenv.config()
 
-const jwt = require('jsonwebtoken')
-
 const Model = require('../../api/models/user.model');
+const { validateUser } = require('../../utils/bcrypt')
+const USER_MESSAGE = require('../../utils/constant/user.message')
 
 const generateAdminAccessToken = async req => {
   try {
@@ -27,17 +28,20 @@ const generateAdminAccessToken = async req => {
 
 const generateAccessToken = async req => {
   try {
-    const username = req.body.username
-    const password = req.body.password
-    const user = await Model.findOne({ username: username });
+    const { username, phoneNumber, password } = req.body;
+    const user = await Model.findOne({ username, phoneNumber });
+    if (!user) {
+      throw USER_MESSAGE.USER_NOT_FOUND
+    }
+
     let token = '';
-    if (password === user.password) {
+    if (validateUser(password, user.password)) {
       token = jwt.sign({ phoneNumber: req.body.phoneNumber }, process.env.JWT_SECRET, { algorithm: process.env.JWT_ALGORITHM, expiresIn: process.env.JWT_EXPIRATION_TIME })
       token = `Bearer ${token}`
     }
     return token
   } catch (error) {
-    return error
+    throw error
   }
 }
 
