@@ -1,5 +1,4 @@
-const { encrypt, decrypt } = require('../../utils/encode');
-const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../../utils/message.constant');
+const { MESSAGE_ERROR, MESSAGE_SUCCESS } = require('../../utils/constant/message.constant');
 
 const Model = require('../models/user.model');
 

@@ -8,7 +8,6 @@ dotenv.config()
 const jwt = require('jsonwebtoken')
 
 const Model = require('../../api/models/user.model');
-const { decrypt } = require('../../utils/encode');
 
 const generateAdminAccessToken = async req => {
   try {
@@ -24,6 +23,7 @@ const generateAdminAccessToken = async req => {
     return error
   }
 }
+
 
 const generateAccessToken = async req => {
   try {
