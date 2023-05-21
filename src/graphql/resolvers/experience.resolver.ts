@@ -23,15 +23,24 @@ export const createExperience = async (body: TExperienceBody) => {
     throw error
   }
 }
-export const updateExperience = async (req: Request) => {
+export const updateExperience = async (body: TExperienceBody) => {
   try {
-    const id = req.params.id;
-    const updatedData = req.body;
+    const _id = body._id;
+    delete body._id;
+    const updateData = body;
     const options = { new: true };
-
     const result = await ExperienceSchema.findByIdAndUpdate(
-      id, updatedData, options
+      _id, updateData, options
     )
+    return result
+  } catch (err) {
+    throw err
+  }
+}
+
+export const deleteExperience = async (body: TExperienceBody) => {
+  try {
+    const result = await ExperienceSchema.deleteOne({ _id: body._id })
     return result
   } catch (err) {
     throw err

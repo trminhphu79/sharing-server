@@ -8,6 +8,6 @@ export const EXPERIENCE_TYPES = `
 
 export type TExperienceBody = {
   _id?: string,
-  companyName?: string,
-  title?: string
+  companyName: string,
+  title: string
 }
