@@ -11,3 +11,8 @@ export type TExperienceBody = {
   companyName?: string,
   title?: string
 }
+
+export type TExperienceFilter = {
+  companyName?: string,
+  title?: string
+}

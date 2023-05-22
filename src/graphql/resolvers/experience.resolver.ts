@@ -1,10 +1,19 @@
 import { Request } from "express";
 import { ExperienceSchema } from "../schemas";
-import { TExperienceBody } from "../types";
+import { TExperienceBody, TExperienceFilter } from "../types";
 
-export const getExperience = async (req: Request) => {
+
+export const getExperienceList = async (filter: TExperienceFilter) => {
   try {
-    const result = await ExperienceSchema.find();
+    const result = await ExperienceSchema.find(filter);
+    return result
+  } catch (error) {
+    throw error
+  }
+}
+export const getExperience = async (_id: string) => {
+  try {
+    const result = await ExperienceSchema.findOne({ _id: _id });
     return result
   } catch (error) {
     throw error

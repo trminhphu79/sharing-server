@@ -2,7 +2,7 @@ import { buildSchema } from "graphql";
 import { EXPERIENCE_TYPES, TExperienceBody } from "./types";
 import { EXPERIENCE_QUERY } from "./queries";
 import { EXPERIENCE_MUTATION } from "./mutations";
-import { getExperience, createExperience, updateExperience, deleteExperience } from './resolvers/experience.resolver';
+import { getExperienceList, getExperience, createExperience, updateExperience, deleteExperience } from './resolvers';
 import { EXPERIENCE_INPUT } from "./inputs";
 
 export const schema = buildSchema(`
@@ -20,16 +20,14 @@ export const schema = buildSchema(`
 `)
 
 export const root = {
-  // getExperienceList: async (args: any) => {
-  //   const result = await getExperience(args)
-  //   return result
-  // },
-
-  // getExperience: async (args: any) => {
-  //   console.log('...getExperience',)
-  //   const result = await getExperience(args)
-  //   return result
-  // },
+  getExperienceList: async (args: any) => {
+    const result = await getExperienceList(args)
+    return result
+  },
+  getExperience: async (args: { _id: string }) => {
+    const result = await getExperience(args._id)
+    return result
+  },
   createExperience: async (args: TExperienceBody) => {
     const result = await createExperience(args)
     return result
