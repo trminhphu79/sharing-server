@@ -20,7 +20,7 @@ const getExperience = async (_id: string) => {
   }
 }
 
-const createExperience = async (body: TExperienceBody) => {
+const createExperience = async (body: Partial<TExperienceBody>) => {
   try {
     const db = new ExperienceSchema({
       companyName: body.companyName,
@@ -32,7 +32,7 @@ const createExperience = async (body: TExperienceBody) => {
     throw error
   }
 }
-const updateExperience = async (body: TExperienceBody) => {
+const updateExperience = async (body: Partial<TExperienceBody>) => {
   try {
     const _id = body._id;
     delete body._id;
@@ -47,7 +47,7 @@ const updateExperience = async (body: TExperienceBody) => {
   }
 }
 
-const deleteExperience = async (body: TExperienceBody) => {
+const deleteExperience = async (body: Partial<TExperienceBody>) => {
   try {
     const result = await ExperienceSchema.deleteOne({ _id: body._id })
     return result
