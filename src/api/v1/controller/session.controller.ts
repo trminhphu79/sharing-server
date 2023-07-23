@@ -138,6 +138,6 @@ export async function googleOauthHandler(req: Request, res: Response) {
     res.redirect(config.get("origin"));
   } catch (error) {
     log.error(error, "Failed to authorize Google user");
-    return res.redirect(`${config.get("origin")}/oauth/error`);
+    return res.redirect(`${config.get("origin")}/login`);
   }
 }

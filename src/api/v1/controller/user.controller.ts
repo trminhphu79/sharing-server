@@ -22,8 +22,12 @@ export async function getCurrentUser(req: Request, res: Response) {
   return res.send(res.locals.user);
 }
 
+export async function loginUser() {
+
+}
+
 export async function logoutHandler(req: Request, res: Response) {
-  const sessionId = res.locals.user.session;
+  const sessionId = res.locals?.user?.session;
 
   try {
     await updateSession({ _id: sessionId }, { valid: false });

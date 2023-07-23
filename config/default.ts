@@ -3,7 +3,7 @@ export default {
   origin: "http://localhost:4200",
   dbUri: "mongodb://127.0.0.1:27017",
   saltWorkFactor: 10,
-  accessTokenTtl: "1m",
+  accessTokenTtl: "15m",
   refreshTokenTtl: "1y",
   publicKey: `-----BEGIN PUBLIC KEY-----
 MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQCXzZerpx9qdaelwt1U7NCpWXQK
