@@ -10,6 +10,7 @@ import axios from "axios";
 import { omit } from "lodash";
 import UserModel, { UserDocument } from "../models/user.model";
 import log from "../../../utils/logger";
+import { GoogleTokensResult, GoogleUserResult } from "../interface";
 
 export async function createUser(
   input: DocumentDefinition<
@@ -49,13 +50,6 @@ export async function findUser(query: FilterQuery<UserDocument>) {
   return UserModel.findOne(query).lean();
 }
 
-interface GoogleTokensResult {
-  access_token: string;
-  expires_in: Number;
-  refresh_token: string;
-  scope: string;
-  id_token: string;
-}
 
 export async function getGoogleOAuthTokens({
   code,
@@ -90,16 +84,7 @@ export async function getGoogleOAuthTokens({
   }
 }
 
-interface GoogleUserResult {
-  id: string;
-  email: string;
-  verified_email: boolean;
-  name: string;
-  given_name: string;
-  family_name: string;
-  picture: string;
-  locale: string;
-}
+
 
 export async function getGoogleUser({
   id_token,

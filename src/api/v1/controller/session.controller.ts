@@ -38,18 +38,18 @@ export async function createUserSessionHandler(req: Request, res: Response) {
   }
 
   // create a session
-  const session = await createSession(user._id, req.get("user-agent") || "");
+  const session = await createSession(user["_id"], req.get("user-agent") || "");
 
   // create an access token
 
   const accessToken = signJwt(
-    { ...user, session: session._id },
+    { ...user, session: session["_id"] },
     { expiresIn: config.get("accessTokenTtl") } // 15 minutes
   );
 
   // create a refresh token
   const refreshToken = signJwt(
-    { ...user, session: session._id },
+    { ...user, session: session["_id"] },
     { expiresIn: config.get("refreshTokenTtl") } // 15 minutes
   );
 
@@ -63,7 +63,7 @@ export async function createUserSessionHandler(req: Request, res: Response) {
 }
 
 export async function getUserSessionsHandler(req: Request, res: Response) {
-  const userId = res.locals.user._id;
+  const userId = res.locals["user"]._id;
 
   const sessions = await findSessions({ user: userId, valid: true });
 
@@ -71,7 +71,7 @@ export async function getUserSessionsHandler(req: Request, res: Response) {
 }
 
 export async function deleteSessionHandler(req: Request, res: Response) {
-  const sessionId = res.locals.user.session;
+  const sessionId = res.locals["user"].session;
 
   await updateSession({ _id: sessionId }, { valid: false });
 
@@ -83,7 +83,7 @@ export async function deleteSessionHandler(req: Request, res: Response) {
 
 export async function googleOauthHandler(req: Request, res: Response) {
   // get the code from qs
-  const code = req.query.code as string;
+  const code = req.query["code"] as string;
 
   try {
     // get the id and access token with the code
@@ -119,13 +119,13 @@ export async function googleOauthHandler(req: Request, res: Response) {
     // create an access token
 
     const accessToken = signJwt(
-      { ...user.toJSON(), session: session._id },
+      { ...user.toJSON(), session: session["_id"] },
       { expiresIn: config.get("accessTokenTtl") } // 15 minutes
     );
 
     // create a refresh token
     const refreshToken = signJwt(
-      { ...user.toJSON(), session: session._id },
+      { ...user.toJSON(), session: session["_id"] },
       { expiresIn: config.get("refreshTokenTtl") } // 1 year
     );
 

@@ -1,0 +1,1 @@
+export type TPostStatus = "active" | "pending" | "deactive"

@@ -1,8 +1,7 @@
-import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 import config from "config";
-
-export interface UserDocument extends mongoose.Document {
+import { Schema, model, connect, Document } from 'mongoose';
+export interface UserDocument extends Document {
   email: string;
   name: string;
   password: string;
@@ -12,7 +11,7 @@ export interface UserDocument extends mongoose.Document {
   comparePassword(candidatePassword: string): Promise<Boolean>;
 }
 
-const userSchema = new mongoose.Schema(
+const userSchema = new Schema(
   {
     email: { type: String, required: true, unique: true },
     name: { type: String, required: true },
@@ -40,7 +39,7 @@ userSchema.pre("save", async function (next) {
   return next();
 });
 
-userSchema.methods.comparePassword = async function (
+userSchema.methods['comparePassword'] = async function (
   candidatePassword: string
 ): Promise<boolean> {
   const user = this as UserDocument;
@@ -48,6 +47,6 @@ userSchema.methods.comparePassword = async function (
   return bcrypt.compare(candidatePassword, user.password).catch((e) => false);
 };
 
-const UserModel = mongoose.model<UserDocument>("User", userSchema);
+const UserModel = model<UserDocument>("User", userSchema);
 
 export default UserModel;

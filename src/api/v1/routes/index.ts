@@ -7,6 +7,6 @@ const mainRoutes = express.Router();
 
 mainRoutes.use('/v1/sessions', sessionRoutes);
 mainRoutes.use('/v1', userRoutes);
-mainRoutes.use('/v1/posts', postRoutes)
+mainRoutes.use('/v1/post', postRoutes)
 
 export default mainRoutes
