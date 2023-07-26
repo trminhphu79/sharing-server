@@ -4,6 +4,3 @@ export enum PostStatusEnum {
     PENDING = 'pending'
 }
 
-export enum PostMessage {
-    UPDATE_STATUS_SUCCESS = "Update status successfully"
-}
