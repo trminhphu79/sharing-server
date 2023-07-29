@@ -9,6 +9,34 @@ import mongoose, {
 } from "mongoose";
 import UserModel, { UserDocument } from "../models/user.model";
 import { PostStatusEnum } from "../enum";
+import { PayloadPaging } from "../interface";
+
+export async function pagingPost(
+    paging: PayloadPaging,
+    input: FilterQuery<Omit<PostDocument, "createdAt" | "updatedAt">>
+) {
+    try {
+        const { page = 1, limit = 10 } = paging;
+        let result = await PostModel
+            .find(input)
+            .limit(limit * 1)
+            .skip((page - 1) * limit)
+            .sort({ createdAt: -1 })
+
+        const count = await PostModel.countDocuments();
+        return {
+            data: result,
+            totalPage: Math.ceil(count / limit),
+            currentPage: page,
+        };
+    } catch (err) {
+        throw new Error(err)
+    }
+}
+
+export async function countPost() {
+
+}
 
 export async function createPost(
     input: DocumentDefinition<Omit<PostDocument, "createdAt" | "updatedAt">>
@@ -48,7 +76,7 @@ export async function updatePostStatus(
     input: UpdateQuery<PostDocument>
 ) {
     try {
-        return PostModel.findByIdAndUpdate(_id , input);
+        return PostModel.findByIdAndUpdate(_id, input);
     } catch (err) {
         throw new Error(err)
     }

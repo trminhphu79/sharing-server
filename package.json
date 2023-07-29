@@ -5,6 +5,7 @@
   "author": "Phu TM",
   "license": "MIT",
   "scripts": {
+    "start": "npm run dev",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts"
   },
   "dependencies": {

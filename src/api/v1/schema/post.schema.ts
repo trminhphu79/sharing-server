@@ -1,4 +1,4 @@
-import { object, string, TypeOf, array } from "zod";
+import { object, string, TypeOf, array, number } from "zod";
 
 export const createPostSchema = object({
     body: object({
@@ -26,4 +26,15 @@ export const updatePostStatusSchema = object({
             required_error: "Id is required"
         })
     }),
+})
+
+export const pagingPostStatusSchema = object({
+    body: object({
+        page: number({
+            required_error: "Page is required"
+        }),
+        limit: number({
+            required_error: "Page is required"
+        }),
+    })
 })

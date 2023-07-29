@@ -21,7 +21,7 @@ const accessTokenCookieOptions: CookieOptions = {
   domain: "localhost",
   path: "/",
   sameSite: "lax",
-  secure: false,
+  secure: true,
 };
 
 const refreshTokenCookieOptions: CookieOptions = {
