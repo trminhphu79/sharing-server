@@ -14,6 +14,7 @@ import {
 } from "../service/user.service";
 import { signJwt } from "../../../utils/jwt.utils";
 import log from "../../../utils/logger";
+import logger from "../../../utils/logger";
 
 const accessTokenCookieOptions: CookieOptions = {
   maxAge: 900000, // 15 mins
@@ -112,32 +113,38 @@ export async function googleOauthHandler(req: Request, res: Response) {
       }
     );
 
-    // create a session
-    // create a session
-    const session = await createSession(user._id, req.get("user-agent") || "");
-
-    // create an access token
-
     const accessToken = signJwt(
-      { ...user.toJSON(), session: session["_id"] },
+      { ...user.toJSON() },
       { expiresIn: config.get("accessTokenTtl") } // 15 minutes
     );
 
     // create a refresh token
     const refreshToken = signJwt(
-      { ...user.toJSON(), session: session["_id"] },
+      { ...user.toJSON() },
       { expiresIn: config.get("refreshTokenTtl") } // 1 year
     );
 
-    // set cookies
-    res.cookie("accessToken", accessToken, accessTokenCookieOptions);
-
-    res.cookie("refreshToken", refreshToken, refreshTokenCookieOptions);
-
-    // redirect back to client
-    res.redirect(config.get("origin"));
+    let url = config.get("origin") + `/signin/oauth/success?accessToken=${accessToken}&refreshToken=${refreshToken}`
+    res.redirect(url);
   } catch (error) {
     log.error(error, "Failed to authorize Google user");
-    return res.redirect(`${config.get("origin")}/login`);
+    return res.redirect(`${config.get("origin")}/signin`);
+  }
+}
+
+
+export async function logoutHandler(req: Request, res: Response) {
+  const sessionId = res.locals['user']?.session
+
+  try {
+    await updateSession({ _id: sessionId }, { valid: false });
+
+    res.clearCookie('accessToken');
+    res.clearCookie('refreshToken');
+
+    return res.status(200).send(null);
+  } catch (e: any) {
+    logger.error(e);
+    return res.status(404).send(e.message);
   }
 }

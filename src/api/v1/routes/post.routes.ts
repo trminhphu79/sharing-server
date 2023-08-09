@@ -15,6 +15,6 @@ postRoutes.patch("/:id", requireUser, updatePostHandler);
 
 // postRoutes.put("/:id", requireUser, pagingPostHandler);
 
-postRoutes.post("/create", requireUser, validateResource(createPostSchema), createPostHandler);
+postRoutes.post("/create", validateResource(createPostSchema), createPostHandler);
 
 export default postRoutes

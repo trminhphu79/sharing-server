@@ -8,8 +8,8 @@ const userRoutes = express.Router();
 
 userRoutes.post("/users", validateResource(createUserSchema), createUserHandler);
 
-userRoutes.get("/me", requireUser, getCurrentUser);
+userRoutes.get("/me", getCurrentUser);
 
-userRoutes.post('/me/logout', logoutHandler)
+// userRoutes.post('/me/logout', logoutHandler)
 
 export default userRoutes
